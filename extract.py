@@ -108,6 +108,8 @@ if __name__ == "__main__":
         "do kilo cheeni becho 60 rupaye ki",
         "two kg sugar sold for 120 rupees",
         "ek packet doodh 30 rupees",
+        "दो किलो चीनी 60 रुपये",
+        "రెండు కిలోలు చక్కెర 60 రూపాయలు",
     ]
     for s in samples:
         print(parse_sale(s))
