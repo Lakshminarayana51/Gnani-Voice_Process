@@ -53,7 +53,7 @@ in all three languages at once. Input is the standard microphone via `sounddevic
 (no OS-specific speech command, works on Windows/macOS/Linux):
 
 ```bash
-python test_all_langs.py        # speaks prompts on screen, records 7 s, tri-language run
+python test_all_langs.py        # prints sentence prompts, records 7 s, tri-language run
 python record_and_test.py       # single-language (hi-IN) mic test with level check
 python test_pipeline.py         # older 5 s single-pipeline test, saves recording.wav
 ```
