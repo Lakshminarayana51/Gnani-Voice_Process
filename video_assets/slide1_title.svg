@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#0f172a"/>
+  <text x="640" y="300" text-anchor="middle" font-family="Segoe UI, Arial" font-size="76" font-weight="700" fill="#f8fafc">Sale Voice Entry</text>
+  <text x="640" y="370" text-anchor="middle" font-family="Segoe UI, Arial" font-size="34" fill="#94a3b8">Voice-based sales recording for small shopkeepers</text>
+  <text x="640" y="500" text-anchor="middle" font-family="Segoe UI, Arial" font-size="28" fill="#34d399">Speak: "do kilo cheeni becho 60 rupaye ki"  →  item, qty, unit, amount</text>
+  <text x="640" y="620" text-anchor="middle" font-family="Segoe UI, Arial" font-size="24" fill="#64748b">Great Indian AI Internship Challenge 2026 · Gnani AI · Lakshminarayana</text>
+  <rect x="80" y="640" width="1120" height="2" fill="#1e293b"/>
+  <text x="640" y="678" text-anchor="middle" font-family="Segoe UI, Arial" font-size="18" fill="#475569">github.com/Lakshminarayana51/Gnani-Voice_Process</text>
+</svg>

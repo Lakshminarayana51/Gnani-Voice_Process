@@ -6,7 +6,6 @@
 **Code (GitHub):** https://github.com/Lakshminarayana51/Gnani-Voice_Process
 **Demo video (2-3 min):** [video link]
 **LinkedIn post (tags @GnaniAI):** [post link]
-
 ## 1. Problem
 
 Many small shopkeepers in Tier-2 and Tier-3 towns record sales by hand or not at all.
