@@ -1,50 +1,54 @@
 # Sale Voice Entry
 
-A small tool for shopkeepers who record sales by voice in Hindi, Telugu, or Hinglish.
-Speech is transcribed with Gnani Prisma (speech-to-text), and the transcript is turned
-into a structured record (item, quantity, unit, amount) and saved to `sales.csv`.
+Voice-based sales recording for small shopkeepers in Tier-2 and Tier-3 towns.
+
+Shopkeepers speak a sale in Hindi, Telugu or Hinglish (e.g. “do kilo cheeni becho 60 rupaye ki”).  
+The app transcribes the audio with **Gnani Prisma**, extracts item / quantity / unit / amount, and saves it to a daily sales table.
+
+Built for the **Great Indian AI Internship Challenge 2026**.
+
+---
+
+## Problem
+
+Many small shopkeepers still write sales by hand or keep them only in their head.  
+Typing on a phone is slow, especially when they speak Hindi / Telugu / Hinglish.  
+Daily totals and restocking become difficult.
+
+## Solution
+
+1. Record a short voice note on phone or laptop  
+2. Transcribe with Gnani Prisma v2.5 (REST API)  
+3. Rule-based parser extracts structured fields  
+4. Save to CSV + show today’s running total  
+5. Shopkeeper can correct the transcript before saving
+
+---
+
+## Demo
+
+[Add your YouTube / Drive demo video link here]
+
+---
+
+## Tech Stack
+
+- **Speech-to-Text**: Gnani Prisma v2.5 (POST `/stt/v3`, language `hi-IN`)
+- Python 3.10+
+- Rule-based extractor for Hindi / Telugu / English number words, units and rupee amounts
+- Simple CSV storage (`sales.csv`)
+
+---
 
 ## Setup
 
 ```bash
+git clone https://github.com/Lakshminarayana51/Gnani-Voice_Process.git
+cd Gnani-Voice_Process
+
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env            # then put your real key in .env
-```
 
-## Usage
-
-Transcribe a clip with Prisma:
-
-```bash
-python prisma.py path/to/sale.wav
-```
-
-Test the sentence parser (no API key needed):
-
-```bash
-python extract.py
-```
-
-Connect the two in your own script:
-
-```python
-from prisma import transcribe
-from extract import parse_sale, save_record
-
-text = transcribe("sale.wav", language_code="hi-IN")
-record = parse_sale(text)
-save_record(record)
-```
-
-## Models used
-
-- **Prisma v2.5** (speech-to-text) via `POST https://api.vachana.ai/stt/v3`
-
-## Known limits
-
-- Parsing is rule-based. It handles sentences with a number, an optional unit, an item
-  name, and an amount next to a rupee word.
-- Amounts written as words (for example "sau rupaye") are not parsed yet.
-- Sentences without a unit or with unusual word order may return `None` for some fields.
+cp .env.example .env
+# Add your Gnani API key in .env
