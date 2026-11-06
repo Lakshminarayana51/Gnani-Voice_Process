@@ -1,23 +1,49 @@
 # Sale Voice Entry
 
-A voice bookkeeping tool for small shopkeepers: instead of writing down each sale,
-they speak it ("do kilo cheeni 60 rupaye"), and the app turns the audio into a
-structured record — item, quantity, unit, amount — saved to `sales.csv`.
+Voice-based sales recording for small shopkeepers in Tier-2 and Tier-3 towns.
 
-Speech is transcribed with **Gnani Prisma** (speech-to-text) and the transcript is
-parsed into a sale record with a rule-based parser supporting Hindi, Telugu and
-English, in Latin, Devanagari and Telugu scripts.
+Shopkeepers speak a sale in Hindi, Telugu or Hinglish (e.g. "do kilo cheeni becho 60 rupaye ki").
+The app transcribes the audio with **Gnani Prisma**, extracts item / quantity / unit / amount, and saves it to a daily sales table (`sales.csv`).
+
+Built for the **Great Indian AI Internship Challenge 2026**.
+
+---
+
+## Problem
+
+Many small shopkeepers still write sales by hand or keep them only in their head.
+Typing on a phone is slow, especially when they speak Hindi / Telugu / Hinglish.
+Daily totals and restocking become difficult.
+
+## Solution
+
+1. Record a short voice note on phone or laptop
+2. Transcribe with Gnani Prisma v2.5 (REST API)
+3. Rule-based trilingual parser extracts structured fields
+4. Save to a timestamped CSV (`sales.csv`) that can be summed for a running total
+
+---
+
+## Demo
+
+[Add your YouTube / Drive demo video link here]
+
+---
 
 ## Setup
 
 ```bash
+git clone https://github.com/Lakshminarayana51/Gnani-Voice_Process.git
+cd Gnani-Voice_Process
+
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env            # then put your real Gnani API key in .env
+cp .env.example .env              # then put your real Gnani API key in .env
 ```
 
-`.env` is git-ignored, so your API key never reaches GitHub.
+`.env` is git-ignored, so the API key never reaches GitHub.
+`sales.csv` and `*.wav` are git-ignored too because they hold only local demo data.
 
 ## Usage
 
@@ -52,14 +78,12 @@ record = parse_sale(text)
 save_record(record)
 ```
 
-`sales.csv` is git-ignored because it holds only local demo data.
-
 ## How it works
 
-1. `prisma.py` records/loads a 16 kHz mono WAV, auto-normalizes it if it is too
-   quiet, and sends it to Prisma (`X-API-Key-ID` header, `audio_file` +
+1. `prisma.py` loads a 16 kHz mono WAV, auto-normalizes it if it is too quiet,
+   and sends it to Prisma (`X-API-Key-ID` header, `audio_file` +
    `language_code` fields).
-2. Prisma returns `{"success": true, "transcript": "..."}`
+2. Prisma returns `{"success": true, "transcript": "..."}`.
 3. `extract.py` turns the transcript into `{item, qty, unit, amount}` using
    trilingual word lists and writes it to `sales.csv` with a timestamp.
 
@@ -67,11 +91,14 @@ Quiet recordings are handled automatically: any clip whose peak is below
 ~36% of full scale is boosted before upload, so a too-soft mic never comes back
 as an empty transcript.
 
-## Gnani models used
+## Tech Stack
 
-- **Prisma v2.5** (speech-to-text) via `POST https://api.vachana.ai/stt/v3`
-
-Language codes confirmed working on this endpoint: `hi-IN`, `en-IN`, `te-IN`.
+- **Speech-to-Text**: Gnani Prisma v2.5 (POST `https://api.vachana.ai/stt/v3`)
+- Language codes confirmed working on this endpoint: `hi-IN`, `en-IN`, `te-IN`
+- Python 3.10+, `requests`
+- Rule-based extractor for Hindi / Telugu / English number words, units and
+  rupee amounts, in Devanagari, Telugu and Latin scripts
+- Simple CSV storage (`sales.csv`)
 
 ## Example transcripts parsed
 
@@ -87,7 +114,7 @@ Language codes confirmed working on this endpoint: `hi-IN`, `en-IN`, `te-IN`.
   an item name, and an amount next to a rupee word. Free-form sentences may
   return `None` for some fields.
 - Amounts written as words (for example "sau rupaye") are not parsed yet.
-- Only the item words in `extract.py` are mapped to English; unusual items are
-  stored as spoken.
-- Suggested next steps: amount-word mapping, more item/unit vocabulary, and a
-  shopkeeper-facing UI.
+- Only the item words listed in `extract.py` are mapped to English; unusual
+  items are stored as spoken.
+- Next steps: amount-word mapping, more item/unit vocabulary, and a
+  shopkeeper-facing UI with transcription correction.
