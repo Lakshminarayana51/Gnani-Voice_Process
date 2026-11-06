@@ -3,6 +3,7 @@ import sys
 sys.stdout.reconfigure(encoding="utf-8")
 
 import os
+import time
 import wave
 
 import numpy as np
@@ -13,7 +14,7 @@ from extract import parse_sale, save_record
 
 LANGS = ["hi-IN", "en-IN", "te-IN"]
 LABELS = {"hi-IN": "Hindi", "en-IN": "English", "te-IN": "Telugu"}
-DURATION = 7
+DURATION = 10
 SAMPLE_RATE = 16000
 
 PHRASES = [
@@ -29,7 +30,13 @@ def record_audio(filename):
     for p in PHRASES:
         print(f"   {p}")
     print("=" * 60)
-    print(f"  Recording for {DURATION} seconds... SPEAK NOW!")
+    print(f"  Recording will start after a 5-second countdown...")
+    for i in range(5, 0, -1):
+        print(f"  {i}...", flush=True)
+        time.sleep(1)
+    print(f"  SPEAK NOW! Recording for {DURATION} seconds...", flush=True)
+    sys.stdout.flush()
+    beep()
     audio = sd.rec(int(DURATION * SAMPLE_RATE), samplerate=SAMPLE_RATE,
                    channels=1, dtype="int16")
     sd.wait()
@@ -44,6 +51,19 @@ def record_audio(filename):
         print("  WARNING: nearly silent. Check Windows sound input settings first.")
         sys.exit(1)
     return filename
+
+
+def beep():
+    """Short audible cue before recording starts."""
+    try:
+        if sys.platform == "win32":
+            import winsound
+            winsound.Beep(880, 300)
+        else:
+            sys.stdout.write("\a")  # terminal bell
+            sys.stdout.flush()
+    except Exception:
+        pass
 
 
 def main():
